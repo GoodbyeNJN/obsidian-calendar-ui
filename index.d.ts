@@ -45,6 +45,8 @@ export class Calendar extends SvelteComponentTyped<{
   // External sources
   selectedId?: string | null;
   sources?: ICalendarSource[];
+  showDots?: boolean;
+  showBackground?: boolean;
 
   // Override-able local state
   today?: Moment;

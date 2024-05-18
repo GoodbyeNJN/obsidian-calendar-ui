@@ -9,6 +9,8 @@
   export let resetDisplayedMonth: () => void;
   export let incrementDisplayedMonth: () => void;
   export let decrementDisplayedMonth: () => void;
+  export let incrementDisplayedYear: () => void;
+  export let decrementDisplayedYear: () => void;
 
   // Get the word 'Today' but localized to the current language
   const todayDisplayStr = today.calendar().split(/\d|\s/)[0];
@@ -19,10 +21,14 @@
 
 <div class="nav" class:is-mobile="{isMobile}">
   <h3 class="title" on:click="{resetDisplayedMonth}">
-    <span class="month">{displayedMonth.format("MMM")}</span>
-    <span class="year">{displayedMonth.format("YYYY")}</span>
+    <span class="year">{displayedMonth.format("YYYY")}</span><span class="unit">年</span><span class="month">{displayedMonth.format("M")}</span><span class="unit">月</span>
   </h3>
   <div class="right-nav">
+    <Arrow
+      direction="left"
+      onClick="{decrementDisplayedYear}"
+      tooltip="Previous Year"
+    />
     <Arrow
       direction="left"
       onClick="{decrementDisplayedMonth}"
@@ -36,6 +42,11 @@
       onClick="{incrementDisplayedMonth}"
       tooltip="Next Month"
     />
+    <Arrow
+      direction="right"
+      onClick="{incrementDisplayedYear}"
+      tooltip="Next Year"
+    />
   </div>
 </div>
 
@@ -44,7 +55,7 @@
     align-items: center;
     display: flex;
     margin: 0.6em 0 1em;
-    padding: 0 8px;
+    padding: 0 6px;
     width: 100%;
   }
 
@@ -63,12 +74,17 @@
   }
 
   .month {
-    font-weight: 500;
+    color: var(--interactive-accent);
     text-transform: capitalize;
   }
 
   .year {
     color: var(--interactive-accent);
+  }
+
+  .unit {
+    padding: 0 2px;
+    font-size: 0.6em;
   }
 
   .right-nav {
@@ -81,10 +97,8 @@
     cursor: pointer;
     border-radius: 4px;
     color: var(--text-muted);
-    font-size: 0.7em;
     font-weight: 600;
     letter-spacing: 1px;
-    margin: 0 4px;
     padding: 0px 4px;
     text-transform: uppercase;
   }

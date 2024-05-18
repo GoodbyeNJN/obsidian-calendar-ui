@@ -34,6 +34,8 @@
 
   // External sources (All optional)
   export let sources: ICalendarSource[] = [];
+  export let showDots: boolean = true;
+  export let showBackground: boolean = false;
   export let selectedId: string;
 
   // Override-able local state
@@ -58,6 +60,14 @@
     displayedMonth = displayedMonth.clone().subtract(1, "month");
   }
 
+  export function incrementDisplayedYear() {
+    displayedMonth = displayedMonth.clone().add(1, "year");
+  }
+
+  export function decrementDisplayedYear() {
+    displayedMonth = displayedMonth.clone().subtract(1, "year");
+  }
+
   export function resetDisplayedMonth() {
     displayedMonth = today.clone();
   }
@@ -69,6 +79,8 @@
     displayedMonth="{displayedMonth}"
     incrementDisplayedMonth="{incrementDisplayedMonth}"
     decrementDisplayedMonth="{decrementDisplayedMonth}"
+    incrementDisplayedYear="{incrementDisplayedYear}"
+    decrementDisplayedYear="{decrementDisplayedYear}"
     resetDisplayedMonth="{resetDisplayedMonth}"
   />
   <table class="calendar">
@@ -106,6 +118,8 @@
           {#each week.days as day (day.format())}
             <Day
               date="{day}"
+              showDots="{showDots}"
+              showBackground="{showBackground}"
               today="{today}"
               displayedMonth="{displayedMonth}"
               onClick="{onClickDay}"
@@ -140,7 +154,7 @@
   }
 
   .container {
-    padding: 0 8px;
+    padding: 0;
   }
 
   .container.is-mobile {

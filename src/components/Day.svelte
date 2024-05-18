@@ -11,6 +11,8 @@
 
   // Properties
   export let date: Moment;
+  export let showDots: boolean;
+  export let showBackground: boolean;
   export let metadata: Promise<IDayMetadata> | null;
   export let onHover: (
     date: Moment,
@@ -33,6 +35,8 @@
       class:active="{selectedId === getDateUID(date, 'day')}"
       class:adjacent-month="{!date.isSame(displayedMonth, 'month')}"
       class:today="{date.isSame(today, 'day')}"
+      class:show-dots="{showDots}"
+      class:show-background="{showBackground && metadata.dots.length !== 0}"
       on:click="{onClick && ((e) => onClick(date, isMetaPressed(e)))}"
       on:contextmenu="{onContextMenu && ((e) => onContextMenu(date, e))}"
       on:pointerover="{onHover &&
@@ -40,11 +44,13 @@
       {...metadata.dataAttributes || {}}
     >
       {date.format("D")}
-      <div class="dot-container">
-        {#each metadata.dots as dot}
-          <Dot {...dot} />
-        {/each}
-      </div>
+      {#if showDots && metadata.dots.length !== 0}
+        <div class="dot-container">
+          {#each metadata.dots as dot}
+            <Dot {...dot} />
+          {/each}
+        </div>
+      {/if}
     </div>
   </MetadataResolver>
 </td>
@@ -55,13 +61,22 @@
     border-radius: 4px;
     color: var(--color-text-day);
     cursor: pointer;
-    font-size: 0.8em;
     height: 100%;
     padding: 4px;
     position: relative;
     text-align: center;
     transition: background-color 0.1s ease-in, color 0.1s ease-in;
     vertical-align: baseline;
+  }
+  .show-dots {
+    font-size: 0.8em;
+  }
+  .show-background {
+    background-color: color-mix(
+      in hsl,
+      var(--interactive-accent) 20%,
+      transparent
+    );
   }
   .day:hover {
     background-color: var(--interactive-hover);

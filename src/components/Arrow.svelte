@@ -32,7 +32,7 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
-    width: 24px;
+    width: 20px;
   }
 
   .arrow.is-mobile {
